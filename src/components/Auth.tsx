@@ -14,7 +14,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
       <div className="flex justify-center">
         <div>
           <div className="text-center px-10">
-            {type === "signin" ? (
+            {type === "signup" ? (
               <div className="text-4xl font-extrabold">Create an Account</div>
             ) : (
               <div className="text-4xl font-extrabold">
@@ -22,23 +22,23 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
               </div>
             )}
             <div className=" text-lg text-slate-500 mt-2">
-              {type === "signin"
-                ? "Already have an account?"
-                : "Don't have an account?"}
-              {type === "signin" ? (
+              {type === "signup"
+                ? "Already have an account? "
+                : "Don't have an account? "}
+              {type === "signup" ? (
                 <Link className="underline" to={"/signin"}>
-                  Login
+                  Log in
                 </Link>
               ) : (
                 <Link className="underline" to={"/signup"}>
                   {" "}
-                  Signup
+                  Sign up
                 </Link>
               )}
             </div>
           </div>
           <div>
-            {type === "signin" ? (
+            {type === "signup" ? (
               <LabelledInput
                 label="Name"
                 placeholder="Enter your full name"
@@ -59,7 +59,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
               }
             />
             <LabelledInput
-              label="Name"
+              label="Password"
               type="password"
               placeholder="8 digit Password"
               onChange={(e) =>
@@ -70,7 +70,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
               type="submit"
               className="text-white w-full bg-slate-800 hover:bg-slate-900 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-3 text-center mt-6 "
             >
-              {type === "signup" ? "Signup" : "Signin"}
+              {type === "signup" ? "Sign up" : "Sign in"}
             </button>
           </div>
         </div>
@@ -89,7 +89,7 @@ const LabelledInput = ({
 }: LabelledInputInterface) => {
   return (
     <div>
-      <label className="block mb-2 text-sm font-medium text-gray-900 mt-4">
+      <label className="block mb-2 text-sm font-semibold text-gray-900 mt-4">
         {label}
       </label>
       <input
