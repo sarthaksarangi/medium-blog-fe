@@ -1,19 +1,37 @@
 import { useState } from "react";
 import { LabelledInputInterface } from "../Utils";
 import { SignupInput } from "@sarthak.dev/medium-common";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 const Auth = ({ type }: { type: "signup" | "signin" }) => {
+  const navigate = useNavigate();
   const [postInputs, setPostInputs] = useState<SignupInput>({
     name: "",
     email: "",
     password: "",
   });
+  const sendRequest = async () => {
+    try {
+      const response = await axios.post(
+        BACKEND_URL + `/api/v1/user/${type === "signup" ? "signup" : "signin"}`,
+        postInputs
+      );
+      const jwt = await response.data.token;
+      console.log(jwt);
+      localStorage.setItem("jwtToken", jwt);
+      navigate("/blogs");
+    } catch (e) {
+      alert("Error While Signin/Signup");
+      console.log(e);
+    }
+  };
   return (
     <div className="flex justify-center h-screen flex-col">
       <div className="flex justify-center">
         <div>
-          <div className="text-center px-10">
+          <div className="text-center lg:px-10">
             {type === "signup" ? (
               <div className="text-4xl font-extrabold">Create an Account</div>
             ) : (
@@ -68,6 +86,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
             />
             <button
               type="submit"
+              onClick={sendRequest}
               className="text-white w-full bg-slate-800 hover:bg-slate-900 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-3 text-center mt-6 "
             >
               {type === "signup" ? "Sign up" : "Sign in"}
