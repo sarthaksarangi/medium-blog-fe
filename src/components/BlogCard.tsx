@@ -13,8 +13,10 @@ export const BlogCard = ({
       <div className="w-full my-2 p-2 mt-6">
         <div>
           <div className="flex items-center  ">
-            <Avatar name={authorName} />
-            <div className=" text-md   ml-2">{authorName}</div>
+            <div className="flex justify-center flex-col">
+              <Avatar name={authorName} />
+            </div>
+            <div className=" text-md   ml-3">{authorName}</div>
             <div className="flex  ml-2 ">
               <Dot />
             </div>
@@ -26,7 +28,7 @@ export const BlogCard = ({
         <div className=" text-2xl font-extrabold mt-3">{title}</div>
         <div className="mt-1">{content.slice(0, 200) + "..."}</div>
         <div className="flex justify-between items-end">
-          <div className="text-sm mt-4 text-gray-800">{`${Math.floor(
+          <div className="text-sm mt-4 text-gray-00">{`${Math.floor(
             content.length / 100
           )} min read`}</div>
 

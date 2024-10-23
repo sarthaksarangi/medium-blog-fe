@@ -4,3 +4,14 @@ export interface BlogCardProps {
   content: string;
   publishedDate: string;
 }
+
+export interface Blogs {
+  id: string;
+  title: string;
+  content: string;
+  published: boolean;
+  authorId: string;
+  author: {
+    name: string;
+  };
+}
