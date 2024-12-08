@@ -3,7 +3,7 @@ import { LabelledInputInterface } from "../Utils";
 import { SignupInput } from "@sarthak.dev/medium-common";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+import.meta.env.Ba;
 
 const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const navigate = useNavigate();
@@ -15,7 +15,8 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const sendRequest = async () => {
     try {
       const response = await axios.post(
-        BACKEND_URL + `/api/v1/user/${type === "signup" ? "signup" : "signin"}`,
+        import.meta.env.VITE_BACKEND_URL +
+          `/api/v1/user/${type === "signup" ? "signup" : "signin"}`,
         postInputs
       );
       const jwt = await response.data.token;
