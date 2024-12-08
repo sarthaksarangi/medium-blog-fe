@@ -16,7 +16,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
     try {
       const response = await axios.post(
         import.meta.env.VITE_BACKEND_URL +
-          `/api/v1/user/${type === "signup" ? "signup" : "signin"}`,
+          `/user/${type === "signup" ? "signup" : "signin"}`,
         postInputs
       );
       const jwt = await response.data.token;
