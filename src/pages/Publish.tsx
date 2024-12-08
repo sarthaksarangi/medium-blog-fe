@@ -64,7 +64,7 @@ const Publish = () => {
           <button
             onClick={async () => {
               const response = await axios.post(
-                "http://localhost:8787/api/v1/blog",
+                `${import.meta.env.VITE_BACKEND_URL}/blog`,
                 {
                   title,
                   content: description,

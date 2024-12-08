@@ -8,7 +8,7 @@ export const useBlogs = () => {
 
   useEffect(() => {
     axios
-      .get("https://backend.sarthaksarangi-dev.workers.dev/api/v1/blog/bulk", {
+      .get(import.meta.env.VITE_BACKEND_URL + "/blog/bulk", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("jwtToken"),
         },
@@ -28,7 +28,7 @@ export const useBlog = ({ id }: { id: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     axios
-      .get(`https://backend.sarthaksarangi-dev.workers.dev/api/v1/blog/${id}`, {
+      .get(`${import.meta.env.VITE_BACKEND_URL}/blog/${id}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("jwtToken"),
         },
