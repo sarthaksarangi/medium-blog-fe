@@ -1,15 +1,17 @@
+import { Link } from "react-router-dom";
 import { BlogCardProps } from "../types";
 import Avatar from "./Avatar";
 import Dot from "./Dot";
 
 export const BlogCard = ({
+  id,
   authorName,
   title,
   content,
   publishedDate,
 }: BlogCardProps) => {
   return (
-    <>
+    <Link to={`/blog/${id}`}>
       <div className="w-full my-2 p-2 mt-6">
         <div>
           <div className="flex items-center  ">
@@ -32,7 +34,7 @@ export const BlogCard = ({
             content.length / 100
           )} min read`}</div>
 
-          <div className="flex  gap-1">
+          <div className="flex cursor-pointer gap-1">
             <Dot />
             <Dot />
             <Dot />
@@ -40,6 +42,6 @@ export const BlogCard = ({
         </div>
       </div>
       <div className="border border-gray-100 mt-4"></div>
-    </>
+    </Link>
   );
 };

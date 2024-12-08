@@ -1,5 +1,6 @@
 import AppBar from "../components/AppBar";
 import { BlogCard } from "../components/BlogCard";
+import BlogSkeleton from "../components/BlogSkeleton";
 import { useBlogs } from "../hooks";
 
 const Blogs = () => {
@@ -12,6 +13,7 @@ const Blogs = () => {
           {!isLoading ? (
             blogs?.map((blog) => (
               <BlogCard
+                id={blog.id}
                 key={blog.id}
                 authorName={blog.author.name || "Sarthak Sarangi"}
                 title={blog.title}
@@ -20,7 +22,11 @@ const Blogs = () => {
               />
             ))
           ) : (
-            <>Loading...</>
+            <>
+              <BlogSkeleton />
+              <BlogSkeleton />
+              <BlogSkeleton />
+            </>
           )}
         </div>
       </div>

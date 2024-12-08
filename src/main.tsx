@@ -7,6 +7,7 @@ import Signin from "./pages/Signin.tsx";
 import Signup from "./pages/Signup.tsx";
 import Blog from "./pages/Blog.tsx";
 import Blogs from "./pages/Blogs.tsx";
+import Publish from "./pages/Publish.tsx";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/blogs",
     element: <Blogs />,
+  },
+  {
+    path: "/publish",
+    element: <Publish />,
   },
 ]);
 

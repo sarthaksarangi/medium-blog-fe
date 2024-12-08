@@ -3,6 +3,7 @@ export interface BlogCardProps {
   title: string;
   content: string;
   publishedDate: string;
+  id: string;
 }
 
 export interface Blogs {
