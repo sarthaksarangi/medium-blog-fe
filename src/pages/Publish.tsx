@@ -1,15 +1,7 @@
-import axios from "axios";
 import AppBar from "../components/AppBar";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import PublishForm from "@/components/PublishForm";
 
 const Publish = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [isPublished, setIsPublished] = useState(true);
-  const navigate = useNavigate();
-
   return (
     <>
       <AppBar />
