@@ -13,7 +13,7 @@ import { z } from "zod";
 import { createBlogInput } from "@sarthak.dev/medium-common";
 import { Button } from "./ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import TipTap from "./TipTap";
+import TipTap from "./RichTextEditor";
 import { Checkbox } from "./ui/checkbox";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -78,7 +78,10 @@ const PublishForm = () => {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <TipTap description={field.value} onChange={field.onChange} />
+                  <TipTap
+                    description={field.value}
+                    onChange={(value) => field.onChange(value)}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -89,7 +92,7 @@ const PublishForm = () => {
             name="published"
             render={({ field }) => (
               <FormItem>
-                <div className=" flex items-center gap-2">
+                <div className=" flex items-center  space-x-2">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
