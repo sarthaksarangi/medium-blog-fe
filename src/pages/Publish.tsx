@@ -1,20 +1,17 @@
-import axios from "axios";
 import AppBar from "../components/AppBar";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import PublishForm from "@/components/PublishForm";
 
 const Publish = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [isPublished, setIsPublished] = useState(true);
-  const navigate = useNavigate();
-
   return (
     <>
       <AppBar />
-      {console.log("outside", isPublished)}
-      <div className="w-full flex items-center justify-center flex-col">
-        <div className="max-w-screen-lg w-full">
+      <div className="w-full flex items-center justify-center flex-col mt-4">
+        <div className="max-w-screen-md w-full">
+          <PublishForm />
+        </div>
+      </div>
+      {/* <div className="w-full flex items-center justify-center flex-col mt-4">
+        <div className="max-w-screen-md w-full">
           <div className="my-4 w-full ">
             <label
               htmlFor="large-input"
@@ -25,8 +22,8 @@ const Publish = () => {
             <input
               onChange={(e) => setTitle(e.target.value)}
               type="text"
-              id="large-input"
-              className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 "
+              placeholder="Title"
+              className="block w-full h-20 text-slate-900  border-0 font-serif text-5xl "
             />
           </div>
           <div className="">
@@ -39,7 +36,7 @@ const Publish = () => {
             <textarea
               onChange={(e) => setDescription(e.target.value)}
               rows={20}
-              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300  "
               placeholder="Write your thoughts here..."
             ></textarea>
           </div>
@@ -86,7 +83,7 @@ const Publish = () => {
             Publish Blog
           </button>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

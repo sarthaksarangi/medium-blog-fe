@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useBlog } from "../hooks";
 import AppBar from "../components/AppBar";
 import Avatar from "../components/Avatar";
+import BlogContent from "@/components/BlogContent";
 
 const Blog = () => {
   const { id } = useParams();
@@ -21,7 +22,9 @@ const Blog = () => {
             <div className=" text-slate-600 pt-2 pb-4">
               Posted on 3 Dec 2024
             </div>
-            <div className="text-slate-600">{blog?.content}</div>
+            <div className="text-slate-600">
+              <BlogContent content={blog?.content} />
+            </div>
           </div>
           <div className="col-span-4">
             <div className=" text-slate-600 text-sm ">Author</div>
