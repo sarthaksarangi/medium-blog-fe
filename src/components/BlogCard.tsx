@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { BlogCardProps } from "../types";
 import Avatar from "./Avatar";
 import Dot from "./Dot";
+import { stripHtml } from "@/Utils";
 
 export const BlogCard = ({
   id,
@@ -10,6 +11,7 @@ export const BlogCard = ({
   content,
   publishedDate,
 }: BlogCardProps) => {
+  const plainText = stripHtml(content);
   return (
     <Link to={`/blog/${id}`}>
       <div className="w-full my-2 p-2 mt-6">
@@ -27,8 +29,8 @@ export const BlogCard = ({
             <div className=" text-sm text-gray-600 ml-2">{"Member-only"}</div>
           </div>
         </div>
-        <div className=" text-2xl font-extrabold mt-3">{title}</div>
-        <div className="mt-1">{content.slice(0, 200) + "..."}</div>
+        <div className=" text-2xl font-bold mt-3">{title}</div>
+        <div className="mt-1">{plainText.slice(0, 200) + "..."}</div>
         <div className="flex justify-between items-end">
           <div className="text-sm mt-4 text-gray-00">{`${Math.floor(
             content.length / 100
