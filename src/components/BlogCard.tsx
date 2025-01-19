@@ -30,7 +30,7 @@ export const BlogCard = ({
           </div>
         </div>
         <div className=" text-2xl font-bold mt-3">{title}</div>
-        <div className="mt-1">{plainText.slice(0, 200) + "..."}</div>
+        <div className="mt-1">{plainText + "..."}</div>
         <div className="flex justify-between items-end">
           <div className="text-sm mt-4 text-gray-00">{`${Math.floor(
             content.length / 100

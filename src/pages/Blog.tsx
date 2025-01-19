@@ -30,11 +30,11 @@ const Blog = () => {
             <div className=" text-slate-600 text-sm ">Author</div>
             <div className=" flex w-full  items-center pt-3 ">
               <div className=" pr-4 ">
-                <Avatar size={"big"} name={blog?.author.name || "Anonymous"} />
+                <Avatar size={"big"} name={blog?.author?.name || "Anonymous"} />
               </div>
               <div className="">
                 <div className=" text-xl font-bold  text-slate-800">
-                  {blog?.author.name || "Anonymous"}
+                  {blog?.author?.name || "Anonymous"}
                 </div>
                 <div className="pt-1 text-slate-500">
                   Random catch phrase about the author to grab the reader's
