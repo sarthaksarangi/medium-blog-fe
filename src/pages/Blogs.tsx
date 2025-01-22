@@ -15,7 +15,7 @@ const Blogs = () => {
               <BlogCard
                 id={blog.id}
                 key={blog.id}
-                authorName={blog.author.name || "Sarthak Sarangi"}
+                authorName={blog?.author?.name || "Sarthak Sarangi"}
                 title={blog.title}
                 content={blog.content}
                 publishedDate={"01/01/01"}
