@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useBlog } from "../hooks";
-import AppBar from "../components/AppBar";
 import Avatar from "../components/Avatar";
 import BlogContent from "@/components/BlogContent";
 
@@ -12,7 +11,6 @@ const Blog = () => {
   }
   return (
     <>
-      <AppBar />
       <div className=" flex justify-center ">
         <div className=" grid grid-cols-12 px-10 w-full pt-10 max-w-screen-2xl">
           <div className="col-span-8">

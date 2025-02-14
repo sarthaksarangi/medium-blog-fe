@@ -1,10 +1,8 @@
-import AppBar from "../components/AppBar";
 import PublishForm from "@/components/PublishForm";
 
 const Publish = () => {
   return (
     <>
-      <AppBar />
       <div className="w-full flex items-center justify-center flex-col mt-4">
         <div className="max-w-screen-md w-full">
           <PublishForm />

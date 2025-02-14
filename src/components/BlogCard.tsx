@@ -3,6 +3,7 @@ import { BlogCardProps } from "../types";
 import Avatar from "./Avatar";
 import Dot from "./Dot";
 import { stripHtml } from "@/Utils";
+import BlogDropdown from "./BlogDropdown";
 
 export const BlogCard = ({
   id,
@@ -37,9 +38,15 @@ export const BlogCard = ({
           )} min read`}</div>
 
           <div className="flex cursor-pointer gap-1">
-            <Dot />
-            <Dot />
-            <Dot />
+            <BlogDropdown
+              onEdit={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+              onDelete={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+              id={0}
+            />
           </div>
         </div>
       </div>

@@ -1,21 +1,20 @@
 import "./App.css";
-import Signup from "./pages/Signup";
-import Blogs from "./pages/Blogs";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function App() {
-  const isAuthenticated = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     const isValid = true;
+
     if (token && isValid) {
-      return true;
+      navigate("/blogs"); // Redirect authenticated users to blogs
+    } else {
+      navigate("/signup"); // Redirect unauthenticated users to signup
     }
-    return false;
-  };
-  return (
-    <>
-      <div>{isAuthenticated() ? <Blogs /> : <Signup />}</div>
-    </>
-  );
+  }, []);
+  return <></>;
 }
 
 export default App;

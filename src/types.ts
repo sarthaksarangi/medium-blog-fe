@@ -16,3 +16,10 @@ export interface Blogs {
     name: string;
   };
 }
+
+export interface BlogPostMenuProps {
+  onEdit: () => void;
+  onDelete: () => void;
+  disabled?: true;
+  id: number;
+}
