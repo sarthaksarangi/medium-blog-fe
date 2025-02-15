@@ -1,3 +1,5 @@
+import { UpdatedBlogInput } from "@sarthak.dev/medium-common";
+
 export interface BlogCardProps {
   authorName: string;
   title: string;
@@ -15,11 +17,12 @@ export interface Blogs {
   author: {
     name: string;
   };
+  createdAt: Date;
 }
 
 export interface BlogPostMenuProps {
-  onEdit: () => void;
-  onDelete: () => void;
+  onEdit: (id: string, updates: UpdatedBlogInput) => Promise<any>;
+  onDelete: (id: string) => Promise<any>;
   disabled?: true;
-  id: number;
+  id: string;
 }

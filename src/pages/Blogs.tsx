@@ -1,3 +1,4 @@
+import moment from "moment";
 import { BlogCard } from "../components/BlogCard";
 import BlogSkeleton from "../components/BlogSkeleton";
 import { useBlogs } from "../hooks";
@@ -16,7 +17,7 @@ const Blogs = () => {
                 authorName={blog?.author?.name || "Sarthak Sarangi"}
                 title={blog.title}
                 content={blog.content}
-                publishedDate={"01/01/01"}
+                publishedDate={moment(blog.createdAt).format("DD-MM-YY")}
               />
             ))
           ) : (
