@@ -3,7 +3,7 @@ import { useBlog } from "../hooks";
 import Avatar from "../components/Avatar";
 import BlogContent from "@/components/BlogContent";
 import moment from "moment";
-import { Loader } from "lucide-react";
+import Loader from "@/components/Loader";
 
 const Blog = () => {
   const { id } = useParams();
