@@ -39,6 +39,10 @@ const router = createBrowserRouter([
         path: "/publish",
         element: <Publish />,
       },
+      {
+        path: "/edit/:blogId",
+        element: <Publish />,
+      },
     ],
   },
 ]);

@@ -4,7 +4,7 @@ import Avatar from "./Avatar";
 import Dot from "./Dot";
 import { stripHtml } from "@/Utils";
 import BlogDropdown from "./BlogDropdown";
-import { useDeleteBlog, useEditBlog } from "@/hooks";
+import { useDeleteBlog } from "@/hooks";
 
 export const BlogCard = ({
   id,
@@ -13,7 +13,6 @@ export const BlogCard = ({
   content,
   publishedDate,
 }: BlogCardProps) => {
-  const { editBlog } = useEditBlog();
   const { deleteBlog } = useDeleteBlog();
   const plainText = stripHtml(content);
   return (
@@ -41,7 +40,7 @@ export const BlogCard = ({
           )} min read`}</div>
 
           <div className="flex cursor-pointer gap-1">
-            <BlogDropdown onEdit={editBlog} onDelete={deleteBlog} id={id} />
+            <BlogDropdown onDelete={deleteBlog} id={id} />
           </div>
         </div>
       </div>

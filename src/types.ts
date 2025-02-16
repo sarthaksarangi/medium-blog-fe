@@ -21,7 +21,7 @@ export interface Blogs {
 }
 
 export interface BlogPostMenuProps {
-  onEdit: (id: string, updates: UpdatedBlogInput) => Promise<any>;
+  onEdit?: (id: string, updates: UpdatedBlogInput) => Promise<any>;
   onDelete: (id: string) => Promise<any>;
   disabled?: true;
   id: string;

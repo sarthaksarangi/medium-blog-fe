@@ -5,9 +5,18 @@ import { UpdatedBlogInput } from "@sarthak.dev/medium-common";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-const getAuthHeaders = () => ({
-  Authorization: "Bearer " + localStorage.getItem("jwtToken"),
-});
+const getAuthHeaders = () => {
+  const token = localStorage.getItem("jwtToken");
+  if (!token) {
+    console.error("No JWT token found in localStorage");
+    return {};
+  }
+
+  return {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+};
 
 //Get all the blogs in bulk
 export const useBlogs = () => {
@@ -50,20 +59,63 @@ export const useBlog = ({ id }: { id: string }) => {
 };
 
 //Edit one blog
-export const useEditBlog = () => {
+export const useEditBlog = (blogId?: string | null) => {
+  const [blogData, setBlogData] = useState<Blogs | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const editBlog = async (id: string, updates: UpdatedBlogInput) => {
+
+  useEffect(() => {
+    if (!blogId) {
+      setBlogData(null);
+      setIsLoading(false);
+      setError(null);
+      return;
+    }
+    setIsLoading(true);
+    axios
+      .get(`${API_URL}/blog/${blogId}`, {
+        headers: getAuthHeaders(),
+      })
+      .then((response) => {
+        setBlogData(response.data.blog);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.error("Error while fetching the blog.", e);
+        setError(e instanceof Error ? e.message : "Failed to fetch blog data");
+        setIsLoading(false);
+      });
+  }, [blogId]);
+
+  const updateBlog = async (updates: UpdatedBlogInput) => {
+    if (!blogId) {
+      throw new Error("Blog ID is required for updates");
+    }
     setIsLoading(true);
     setError(null);
+
     try {
-      const response = await axios.put(`${API_URL}/blog/${id}`, {
-        updates,
-        headers: getAuthHeaders(),
-      });
+      const response = await axios.put(
+        `${API_URL}/blog/${blogId}`,
+
+        {
+          title: updates.title,
+          content: updates.content,
+          published: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      );
       setIsLoading(false);
       console.log(response);
-      return response.data.blog;
+      if (response.data.blog) {
+        setBlogData(response.data.blog);
+      }
+
+      return response.data.blog || response.data;
     } catch (error: any) {
       setIsLoading(false);
       const errorMessage =
@@ -74,7 +126,7 @@ export const useEditBlog = () => {
       throw error;
     }
   };
-  return { editBlog, isLoading, error };
+  return { blogData, isLoading, error, updateBlog };
 };
 
 //Delete one blog

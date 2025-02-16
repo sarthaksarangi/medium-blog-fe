@@ -12,7 +12,6 @@ import DeleteAlert from "./DeleteAlert";
 import { useNavigate } from "react-router-dom";
 
 const BlogDropdown: React.FC<BlogPostMenuProps> = ({
-  onEdit,
   onDelete,
   disabled = false,
   id,
@@ -24,7 +23,7 @@ const BlogDropdown: React.FC<BlogPostMenuProps> = ({
     (e: React.MouseEvent) => {
       e.stopPropagation();
       try {
-        //onEdit(id);
+        navigate(`/edit/${id}`);
         setIsOpen(false);
       } catch (e) {
         console.error(
@@ -33,7 +32,7 @@ const BlogDropdown: React.FC<BlogPostMenuProps> = ({
         );
       }
     },
-    [onEdit, id]
+    [id]
   );
 
   const handleDeleteClick = useCallback((e: React.MouseEvent) => {
