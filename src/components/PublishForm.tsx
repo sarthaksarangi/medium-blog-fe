@@ -183,7 +183,7 @@ const PublishForm = () => {
         <FormField
           control={form.control}
           name="content"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel className="text-lg font-semibold">Content</FormLabel>
               <FormControl>
