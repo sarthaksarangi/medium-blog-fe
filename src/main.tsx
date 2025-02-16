@@ -8,6 +8,7 @@ import Signup from "./pages/Signup.tsx";
 import Blog from "./pages/Blog.tsx";
 import Blogs from "./pages/Blogs.tsx";
 import Publish from "./pages/Publish.tsx";
+import Layout from "./components/Layout.tsx";
 
 const router = createBrowserRouter([
   {
@@ -23,16 +24,26 @@ const router = createBrowserRouter([
     element: <Signin />,
   },
   {
-    path: "/blog/:id",
-    element: <Blog />,
-  },
-  {
-    path: "/blogs",
-    element: <Blogs />,
-  },
-  {
-    path: "/publish",
-    element: <Publish />,
+    path: "/",
+    element: <Layout />, // Wrap these routes with Layout
+    children: [
+      {
+        path: "/blog/:id",
+        element: <Blog />,
+      },
+      {
+        path: "/blogs",
+        element: <Blogs />,
+      },
+      {
+        path: "/publish",
+        element: <Publish />,
+      },
+      {
+        path: "/edit/:blogId",
+        element: <Publish />,
+      },
+    ],
   },
 ]);
 

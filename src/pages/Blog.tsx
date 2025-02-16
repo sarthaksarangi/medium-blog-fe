@@ -1,18 +1,18 @@
 import { useParams } from "react-router-dom";
 import { useBlog } from "../hooks";
-import AppBar from "../components/AppBar";
 import Avatar from "../components/Avatar";
 import BlogContent from "@/components/BlogContent";
+import moment from "moment";
+import Loader from "@/components/Loader";
 
 const Blog = () => {
   const { id } = useParams();
   const { blog, isLoading } = useBlog({ id: id || "" });
   if (isLoading) {
-    return <div className="">Loading...</div>;
+    return <Loader />;
   }
   return (
     <>
-      <AppBar />
       <div className=" flex justify-center ">
         <div className=" grid grid-cols-12 px-10 w-full pt-10 max-w-screen-2xl">
           <div className="col-span-8">
@@ -20,7 +20,7 @@ const Blog = () => {
               {blog?.title}
             </div>
             <div className=" text-slate-600 pt-2 pb-4">
-              Posted on 3 Dec 2024
+              Posted on {moment(blog?.createdAt).format("DD-MM-YYYY")}
             </div>
             <div className="text-slate-600">
               <BlogContent content={blog?.content} />

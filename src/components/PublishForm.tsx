@@ -15,23 +15,79 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import TipTap from "./RichTextEditor";
 import { Checkbox } from "./ui/checkbox";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useEditBlog } from "@/hooks";
+import Loader from "./Loader";
 
 const PublishForm = () => {
   const navigate = useNavigate();
+  const { blogId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [editorContent, setEditorContent] = useState("");
+  const [editorKey, setEditorKey] = useState("initial");
+
+  const isEditMode = Boolean(blogId);
+  const { blogData, updateBlog, isLoading, error } = useEditBlog(
+    isEditMode ? blogId : null
+  );
+
+  const dataLoadedRef = useRef(false);
 
   const form = useForm<z.infer<typeof createBlogInput>>({
     resolver: zodResolver(createBlogInput),
     mode: "onChange",
-    defaultValues: {
+    defaultValues: blogData || {
       title: "",
       content: "",
       published: true,
     },
   });
+
+  // Load blog data when available
+  useEffect(() => {
+    if (blogData && isEditMode && !dataLoadedRef.current) {
+      console.log("Setting form data:", blogData);
+
+      // Set editor content state
+      setEditorContent(blogData.content);
+
+      // Force editor rerender with new content
+      setEditorKey(`edit-${blogId}-${Date.now()}`);
+
+      // Set form values
+      form.reset({
+        title: blogData.title,
+        content: blogData.content,
+        published: blogData.published,
+      });
+
+      dataLoadedRef.current = true;
+    }
+  }, [blogData, form, isEditMode, blogId]);
+
+  // Handle errors
+  useEffect(() => {
+    if (error && isEditMode) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to load blog post for editing",
+      });
+      navigate(-1);
+    }
+  }, [error, navigate, isEditMode]);
+
+  // Update form when editor content changes
+  useEffect(() => {
+    if (editorContent) {
+      form.setValue("content", editorContent, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    }
+  }, [editorContent, form]);
 
   async function onSubmit(values: z.infer<typeof createBlogInput>) {
     try {
@@ -46,27 +102,41 @@ const PublishForm = () => {
         return;
       }
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/blog`,
-        {
-          title: values.title,
-          content: values.content,
-          published: values.published,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-          },
-        }
-      );
+      const payload = {
+        title: values.title,
+        content: values.content,
+        published: values.published,
+      };
 
-      if (response.data.blogId) {
+      if (isEditMode && blogId) {
+        await updateBlog(payload);
+        toast({
+          description: "Blog post updated successfully!",
+        });
+        navigate(`/blog/${blogId}`);
+      } else {
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/blog`,
+          {
+            title: values.title,
+            content: values.content,
+            published: values.published,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+            },
+          }
+        );
         toast({
           description: "Blog post created successfully!",
         });
-        navigate(`/blog/${response.data.blogId}`);
-      } else {
-        throw new Error("Blog ID not received");
+
+        if (response.data.blogId) {
+          navigate(`/blog/${response.data.blogId}`);
+        } else {
+          throw new Error("Blog ID not received");
+        }
       }
     } catch (error) {
       toast({
@@ -80,6 +150,13 @@ const PublishForm = () => {
     } finally {
       setIsSubmitting(false);
     }
+  }
+
+  if (isEditMode && (isLoading || !blogData)) {
+    return <Loader />;
+  }
+  if (isLoading && isEditMode) {
+    return <Loader />;
   }
 
   return (
@@ -109,15 +186,16 @@ const PublishForm = () => {
         <FormField
           control={form.control}
           name="content"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel className="text-lg font-semibold">Content</FormLabel>
               <FormControl>
-                <div className="min-h-[500px]  rounded-lg">
+                <div className="min-h-[500px] rounded-lg">
                   <TipTap
-                    description={field.value}
+                    key={editorKey}
+                    description={editorContent}
                     onChange={(value) => {
-                      field.onChange(value);
+                      setEditorContent(value);
                       // Clear error when user starts typing
                       form.clearErrors("content");
                     }}
@@ -158,7 +236,13 @@ const PublishForm = () => {
             type="submit"
             disabled={isSubmitting || !form.formState.isValid}
           >
-            {isSubmitting ? "Publishing..." : "Publish"}
+            {isSubmitting
+              ? isEditMode
+                ? "Updating..."
+                : "Publishing..."
+              : isEditMode
+              ? "Update"
+              : "Publish"}
           </Button>
         </div>
       </form>

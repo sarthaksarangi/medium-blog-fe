@@ -3,6 +3,8 @@ import { BlogCardProps } from "../types";
 import Avatar from "./Avatar";
 import Dot from "./Dot";
 import { stripHtml } from "@/Utils";
+import BlogDropdown from "./BlogDropdown";
+import { useDeleteBlog } from "@/hooks";
 
 export const BlogCard = ({
   id,
@@ -11,6 +13,7 @@ export const BlogCard = ({
   content,
   publishedDate,
 }: BlogCardProps) => {
+  const { deleteBlog } = useDeleteBlog();
   const plainText = stripHtml(content);
   return (
     <Link to={`/blog/${id}`}>
@@ -32,14 +35,12 @@ export const BlogCard = ({
         <div className=" text-2xl font-bold mt-3">{title}</div>
         <div className="mt-1">{plainText + "..."}</div>
         <div className="flex justify-between items-end">
-          <div className="text-sm mt-4 text-gray-00">{`${Math.floor(
+          <div className="text-sm mt-4 text-gray-00">{`${Math.round(
             content.length / 100
           )} min read`}</div>
 
           <div className="flex cursor-pointer gap-1">
-            <Dot />
-            <Dot />
-            <Dot />
+            <BlogDropdown onDelete={deleteBlog} id={id} />
           </div>
         </div>
       </div>
