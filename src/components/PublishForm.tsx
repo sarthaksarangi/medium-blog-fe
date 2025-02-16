@@ -38,7 +38,7 @@ const PublishForm = () => {
   const form = useForm<z.infer<typeof createBlogInput>>({
     resolver: zodResolver(createBlogInput),
     mode: "onChange",
-    defaultValues: {
+    defaultValues: blogData || {
       title: "",
       content: "",
       published: true,
@@ -152,6 +152,9 @@ const PublishForm = () => {
     }
   }
 
+  if (isEditMode && (isLoading || !blogData)) {
+    return <Loader />;
+  }
   if (isLoading && isEditMode) {
     return <Loader />;
   }
