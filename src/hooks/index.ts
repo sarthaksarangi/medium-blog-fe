@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Blogs } from "../types";
 import axios from "axios";
 import { UpdatedBlogInput } from "@sarthak.dev/medium-common";
@@ -23,19 +23,25 @@ export const useBlogs = () => {
   const [blogs, setBlogs] = useState<Blogs[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    axios
-      .get(API_URL + "/blog/bulk", {
+  const fetchBlogs = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(API_URL + "/blog/bulk", {
         headers: getAuthHeaders(),
-      })
-      .then((response) => {
-        setBlogs(response.data.blogs);
-        setIsLoading(false);
-      })
-      .catch((e) => console.error(e));
+      });
+      setBlogs(response.data.blogs);
+      console.log(response);
+    } catch (error) {
+      console.error("Failed to fetch blogs", error);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
 
-  return { blogs, isLoading };
+  return { blogs, isLoading, refetch: fetchBlogs };
 };
 
 //Get one blog only

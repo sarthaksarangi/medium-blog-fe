@@ -12,6 +12,7 @@ export const BlogCard = ({
   title,
   content,
   publishedDate,
+  refetchBlogs,
 }: BlogCardProps) => {
   const { deleteBlog } = useDeleteBlog();
   const plainText = stripHtml(content);
@@ -40,7 +41,11 @@ export const BlogCard = ({
           )} min read`}</div>
 
           <div className="flex cursor-pointer gap-1">
-            <BlogDropdown onDelete={deleteBlog} id={id} />
+            <BlogDropdown
+              onDelete={deleteBlog}
+              id={id}
+              refetchBlogs={refetchBlogs}
+            />
           </div>
         </div>
       </div>

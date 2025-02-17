@@ -6,6 +6,7 @@ export interface BlogCardProps {
   content: string;
   publishedDate: string;
   id: string;
+  refetchBlogs: () => void;
 }
 
 export interface Blogs {
@@ -25,4 +26,5 @@ export interface BlogPostMenuProps {
   onDelete: (id: string) => Promise<any>;
   disabled?: true;
   id: string;
+  refetchBlogs: () => void;
 }

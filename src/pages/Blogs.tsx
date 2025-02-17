@@ -4,7 +4,7 @@ import BlogSkeleton from "../components/BlogSkeleton";
 import { useBlogs } from "../hooks";
 
 const Blogs = () => {
-  const { blogs, isLoading } = useBlogs();
+  const { blogs, isLoading, refetch } = useBlogs();
   return (
     <>
       <div className=" flex justify-center ">
@@ -18,6 +18,7 @@ const Blogs = () => {
                 title={blog.title}
                 content={blog.content}
                 publishedDate={moment(blog.createdAt).format("DD-MM-YY")}
+                refetchBlogs={refetch}
               />
             ))
           ) : (
