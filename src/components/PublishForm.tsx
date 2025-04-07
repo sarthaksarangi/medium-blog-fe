@@ -50,7 +50,7 @@ const PublishForm = () => {
         content: "",
         published: true,
       }),
-      image: blogData?.image || "",
+      image: blogData?.image?.url || "",
     },
   });
 
@@ -70,7 +70,7 @@ const PublishForm = () => {
         title: blogData.title,
         content: blogData.content,
         published: blogData.published,
-        image: blogData.image || "",
+        image: blogData.image?.url || "",
       });
 
       dataLoadedRef.current = true;

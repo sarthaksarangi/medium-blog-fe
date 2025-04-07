@@ -2,8 +2,8 @@ import Dot from "./Dot";
 
 const BlogSkeleton = () => {
   return (
-    <div>
-      <div role="status" className="max-w-screen-2xl animate-pulse">
+    <div className="min-w-full">
+      <div role="status" className="animate-pulse">
         <div className="w-full my-2 p-2 mt-6">
           <div>
             <div className="flex items-center  ">

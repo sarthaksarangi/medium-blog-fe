@@ -23,11 +23,11 @@ const Blogs = () => {
               />
             ))
           ) : (
-            <>
+            <div className="lg: min-w-4xl">
               <BlogSkeleton />
               <BlogSkeleton />
               <BlogSkeleton />
-            </>
+            </div>
           )}
         </div>
       </div>
