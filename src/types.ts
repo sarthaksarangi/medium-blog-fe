@@ -7,6 +7,11 @@ export interface BlogCardProps {
   publishedDate: string;
   id: string;
   refetchBlogs: () => void;
+  image?: {
+    url: string;
+    key: string;
+    postId: string;
+  };
 }
 
 export interface Blogs {
@@ -19,7 +24,11 @@ export interface Blogs {
     name: string;
   };
   createdAt: Date;
-  image?: string;
+  image?: {
+    url: string;
+    key: string;
+    postId: string;
+  };
 }
 
 export interface BlogPostMenuProps {

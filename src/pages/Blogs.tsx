@@ -7,8 +7,8 @@ const Blogs = () => {
   const { blogs, isLoading, refetch } = useBlogs();
   return (
     <>
-      <div className=" flex justify-center ">
-        <div className=" flex justify-center flex-col w-screen lg: max-w-3xl">
+      <div className=" flex justify-center">
+        <div className=" flex justify-center flex-col  lg:max-w-4xl">
           {!isLoading ? (
             blogs?.map((blog) => (
               <BlogCard
@@ -19,6 +19,7 @@ const Blogs = () => {
                 content={blog.content}
                 publishedDate={moment(blog.createdAt).format("DD-MM-YY")}
                 refetchBlogs={refetch}
+                image={blog.image}
               />
             ))
           ) : (

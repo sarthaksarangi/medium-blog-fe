@@ -22,6 +22,18 @@ const Blog = () => {
             <div className=" text-slate-600 pt-2 pb-4">
               Posted on {moment(blog?.createdAt).format("DD-MM-YYYY")}
             </div>
+
+            <figure className=" h-[600px] relative m-2.5 overflow-hidden">
+              <img
+                className="w-full h-full object-cover rounded-lg"
+                src={
+                  blog?.image?.url ||
+                  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlbnR8fHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1471&amp;q=80"
+                }
+                alt="image description"
+              />
+            </figure>
+
             <div className="text-slate-600">
               <BlogContent content={blog?.content} />
             </div>
