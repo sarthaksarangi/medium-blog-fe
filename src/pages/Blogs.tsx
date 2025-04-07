@@ -8,7 +8,7 @@ const Blogs = () => {
   return (
     <>
       <div className=" flex justify-center">
-        <div className=" flex justify-center flex-col  lg:max-w-4xl">
+        <div className=" flex justify-center flex-col  lg:max-w-4xl w-screen">
           {!isLoading ? (
             blogs?.map((blog) => (
               <BlogCard
