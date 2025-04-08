@@ -15,6 +15,7 @@ const BlogDropdown: React.FC<BlogPostMenuProps> = ({
   onDelete,
   disabled = false,
   id,
+  refetchBlogs,
 }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -46,6 +47,7 @@ const BlogDropdown: React.FC<BlogPostMenuProps> = ({
       e.stopPropagation();
       try {
         onDelete(id);
+        refetchBlogs();
       } catch (error) {
         console.error(
           `An error occured while deleting the post id ${id}`,

@@ -6,6 +6,12 @@ export interface BlogCardProps {
   content: string;
   publishedDate: string;
   id: string;
+  refetchBlogs: () => void;
+  image?: {
+    url: string;
+    key: string;
+    postId: string;
+  };
 }
 
 export interface Blogs {
@@ -18,6 +24,11 @@ export interface Blogs {
     name: string;
   };
   createdAt: Date;
+  image?: {
+    url: string;
+    key: string;
+    postId: string;
+  };
 }
 
 export interface BlogPostMenuProps {
@@ -25,4 +36,26 @@ export interface BlogPostMenuProps {
   onDelete: (id: string) => Promise<any>;
   disabled?: true;
   id: string;
+  refetchBlogs: () => void;
+}
+
+export interface CloudinaryResponse {
+  secure_url: string;
+  public_id: string;
+  width: number;
+  height: number;
+  format: string;
+}
+
+export interface ImageDetails {
+  file: File | null;
+  previewUrl: string | null;
+  cloudinaryURL?: string | null;
+  cloudinaryImageId?: string | null;
+}
+export interface MainImageUploadProps {
+  onImageSelected: (imageDetails: ImageDetails | null) => void;
+  isUploading?: boolean;
+  maxSizeMB?: number;
+  initialImageUrl?: string | null;
 }
