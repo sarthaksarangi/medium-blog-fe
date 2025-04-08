@@ -3,10 +3,10 @@ import { LabelledInputInterface } from "../Utils";
 import { SignupInput } from "@sarthak.dev/medium-common";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import.meta.env.Ba;
 
 const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_BACKEND_PROD_URL;
   const [postInputs, setPostInputs] = useState<SignupInput>({
     name: "",
     email: "",
@@ -15,8 +15,7 @@ const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const sendRequest = async () => {
     try {
       const response = await axios.post(
-        import.meta.env.VITE_BACKEND_URL +
-          `/user/${type === "signup" ? "signup" : "signin"}`,
+        API_URL + `/user/${type === "signup" ? "signup" : "signin"}`,
         postInputs
       );
       const jwt = await response.data.token;

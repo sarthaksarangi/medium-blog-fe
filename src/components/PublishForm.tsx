@@ -187,15 +187,11 @@ const PublishForm = () => {
         });
         navigate(`/blog/${blogId}`);
       } else {
-        const response = await axios.post(
-          `http://localhost:8787/api/v1/blog`,
-          payload,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-            },
-          }
-        );
+        const response = await axios.post(API_URL + `/blog`, payload, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        });
         toast({
           description: "Blog post created successfully!",
         });
