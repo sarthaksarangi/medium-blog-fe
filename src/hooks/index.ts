@@ -3,7 +3,7 @@ import { Blogs } from "../types";
 import axios from "axios";
 import { UpdatedBlogInput } from "@sarthak.dev/medium-common";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+const API_URL = import.meta.env.VITE_BACKEND_PROD_URL;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("jwtToken");
@@ -26,12 +26,9 @@ export const useBlogs = () => {
   const fetchBlogs = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(
-        "http://localhost:8787/api/v1" + "/blog/bulk",
-        {
-          headers: getAuthHeaders(),
-        }
-      );
+      const response = await axios.get(API_URL + "/blog/bulk", {
+        headers: getAuthHeaders(),
+      });
       setBlogs(response.data.blogs);
       console.log(response);
     } catch (error) {
@@ -53,7 +50,7 @@ export const useBlog = ({ id }: { id: string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     axios
-      .get(`http://localhost:8787/api/v1/blog/${id}`, {
+      .get(API_URL + `/blog/${id}`, {
         headers: getAuthHeaders(),
       })
       .then((response) => {
