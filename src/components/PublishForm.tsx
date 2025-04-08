@@ -38,6 +38,7 @@ const PublishForm = () => {
   const { blogData, updateBlog, isLoading, error } = useEditBlog(
     isEditMode ? blogId : null
   );
+  const API_URL = import.meta.env.VITE_BACKEND_PROD_URL;
 
   const dataLoadedRef = useRef(false);
 
@@ -121,16 +122,12 @@ const PublishForm = () => {
       setIsUploading(true);
       const formdata = new FormData();
       formdata.append("image", selectedImage.file);
-      const response = await axios.post(
-        `http://localhost:8787/api/v1/blog/upload`,
-        formdata,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-          },
-        }
-      );
+      const response = await axios.post(API_URL + `/upload`, formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      });
       console.log(response.data);
       if (response.data?.secure_url) {
         setUploadedImageUrl(response.data.secure_url);
