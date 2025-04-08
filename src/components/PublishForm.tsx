@@ -122,7 +122,7 @@ const PublishForm = () => {
       setIsUploading(true);
       const formdata = new FormData();
       formdata.append("image", selectedImage.file);
-      const response = await axios.post(API_URL + `/upload`, formdata, {
+      const response = await axios.post(API_URL + `/blog/upload`, formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
