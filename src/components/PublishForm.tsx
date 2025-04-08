@@ -20,13 +20,19 @@ import { toast } from "@/hooks/use-toast";
 import { useEffect, useRef, useState } from "react";
 import { useEditBlog } from "@/hooks";
 import Loader from "./Loader";
+import ImageUpload from "./ImageUpload";
+import { ImageDetails } from "@/types";
 
 const PublishForm = () => {
   const navigate = useNavigate();
   const { blogId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [editorContent, setEditorContent] = useState("");
   const [editorKey, setEditorKey] = useState("initial");
+  const [selectedImage, setSelectedImage] = useState<ImageDetails | null>(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [uploadedImageId, setUploadedImageId] = useState<string | null>(null);
 
   const isEditMode = Boolean(blogId);
   const { blogData, updateBlog, isLoading, error } = useEditBlog(
@@ -38,10 +44,13 @@ const PublishForm = () => {
   const form = useForm<z.infer<typeof createBlogInput>>({
     resolver: zodResolver(createBlogInput),
     mode: "onChange",
-    defaultValues: blogData || {
-      title: "",
-      content: "",
-      published: true,
+    defaultValues: {
+      ...(blogData || {
+        title: "",
+        content: "",
+        published: true,
+      }),
+      image: blogData?.image?.url || "",
     },
   });
 
@@ -61,6 +70,7 @@ const PublishForm = () => {
         title: blogData.title,
         content: blogData.content,
         published: blogData.published,
+        image: blogData.image?.url || "",
       });
 
       dataLoadedRef.current = true;
@@ -89,6 +99,61 @@ const PublishForm = () => {
     }
   }, [editorContent, form]);
 
+  useEffect(() => {
+    if (uploadedImageUrl) {
+      form.setValue("content", editorContent, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    }
+  }, [editorContent, form]);
+
+  const handleUploadImage = async () => {
+    if (!selectedImage?.file) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please select an image first",
+      });
+      return;
+    }
+    try {
+      setIsUploading(true);
+      const formdata = new FormData();
+      formdata.append("image", selectedImage.file);
+      const response = await axios.post(
+        `http://localhost:8787/api/v1/blog/upload`,
+        formdata,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          },
+        }
+      );
+      console.log(response.data);
+      if (response.data?.secure_url) {
+        setUploadedImageUrl(response.data.secure_url);
+        setUploadedImageId(response.data.public_id);
+        toast({
+          description: "Image uploaded successfully!",
+        });
+      } else {
+        throw new Error("Upload failed: No secure URL returned");
+      }
+    } catch (err) {
+      console.error("Upload error:", err);
+      toast({
+        variant: "destructive",
+        title: "Upload Failed",
+        description:
+          err instanceof Error ? err.message : "Failed to upload image",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   async function onSubmit(values: z.infer<typeof createBlogInput>) {
     try {
       setIsSubmitting(true);
@@ -102,10 +167,20 @@ const PublishForm = () => {
         return;
       }
 
+      if (selectedImage?.file && !uploadedImageUrl) {
+        await handleUploadImage();
+        if (!uploadedImageUrl) {
+          // If upload failed, stop submission
+          return;
+        }
+      }
+
       const payload = {
         title: values.title,
         content: values.content,
         published: values.published,
+        image: uploadedImageUrl || "",
+        image_id: uploadedImageId || "",
       };
 
       if (isEditMode && blogId) {
@@ -116,12 +191,8 @@ const PublishForm = () => {
         navigate(`/blog/${blogId}`);
       } else {
         const response = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/blog`,
-          {
-            title: values.title,
-            content: values.content,
-            published: values.published,
-          },
+          `http://localhost:8787/api/v1/blog`,
+          payload,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
@@ -182,7 +253,38 @@ const PublishForm = () => {
             </FormItem>
           )}
         />
+        <div className="space-y-4">
+          <FormLabel className="text-lg font-semibold">Cover Image</FormLabel>
+          <ImageUpload
+            onImageSelected={(imageDetails) => {
+              setSelectedImage(imageDetails);
 
+              setUploadedImageUrl(null);
+              setUploadedImageId(null);
+            }}
+            isUploading={isUploading}
+            initialImageUrl={uploadedImageUrl}
+          />
+
+          {selectedImage && !uploadedImageUrl && (
+            <div className="flex justify-end">
+              <Button
+                type="button"
+                onClick={handleUploadImage}
+                disabled={isUploading || !selectedImage}
+                className="mt-2"
+              >
+                {isUploading ? "Uploading..." : "Upload Image"}
+              </Button>
+            </div>
+          )}
+
+          {uploadedImageUrl && (
+            <div className="text-sm text-green-600">
+              Image uploaded successfully ✓
+            </div>
+          )}
+        </div>
         <FormField
           control={form.control}
           name="content"
@@ -212,7 +314,7 @@ const PublishForm = () => {
           name="published"
           render={({ field }) => (
             <FormItem>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 ">
                 <FormControl>
                   <Checkbox
                     checked={field.value}
@@ -228,7 +330,7 @@ const PublishForm = () => {
           )}
         />
 
-        <div className="flex justify-end space-x-4">
+        <div className="flex justify-end space-x-2">
           <Button type="button" variant="outline" onClick={() => navigate(-1)}>
             Cancel
           </Button>
