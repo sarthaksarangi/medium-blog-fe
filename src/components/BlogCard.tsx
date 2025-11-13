@@ -20,7 +20,7 @@ export const BlogCard = ({
   return (
     <Link to={`/blog/${id}`}>
       <div className="flex flex-col-reverse lg:flex-row lg:justify-between lg:items-center lg:mt-4 ">
-        <div className="w-screen md:w-3/4 lg:mr-2.5 lg:ml-2.5 pl-2">
+        <div className="w-screen md:w-3/4 lg:mr-2.5 lg:ml-2.5 lg:pl-2 px-3">
           <div>
             <div className="flex items-center mt-3 lg:mt-0">
               <div className="flex justify-center flex-col">
@@ -51,7 +51,7 @@ export const BlogCard = ({
             </div>
           </div>
         </div>
-        <div className="h-[250px] lg:w-[230px] lg:h-[145px] relative  overflow-hidden text-white px-2 ">
+        <div className="h-[250px] lg:w-[250px] lg:h-[145px] relative  overflow-hidden text-white px-3 ">
           <img
             className="w-full h-full object-cover rounded-md "
             src={
@@ -62,7 +62,7 @@ export const BlogCard = ({
           />
         </div>
       </div>
-      <div className="border border-gray-100 lg:mt-2  mb-4 lg:mb-0"></div>
+      <div className="border border-gray-100 lg:mt-2  my-4 lg:mb-0"></div>
     </Link>
   );
 };

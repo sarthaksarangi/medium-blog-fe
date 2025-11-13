@@ -14,8 +14,8 @@ const Blog = () => {
   return (
     <>
       <div className=" flex justify-center ">
-        <div className=" grid grid-cols-12 px-10 w-full pt-10 max-w-screen-2xl">
-          <div className="col-span-8">
+        <div className=" lg:grid lg:grid-cols-12 lg:px-10 w-full pt-10 lg:max-w-screen-2xl">
+          <div className="lg:col-span-8 m-2.5">
             <div className="text-5xl font-extrabold text-slate-900">
               {blog?.title}
             </div>
@@ -23,7 +23,7 @@ const Blog = () => {
               Posted on {moment(blog?.createdAt).format("DD-MM-YYYY")}
             </div>
 
-            <figure className=" h-[600px] relative m-2.5 overflow-hidden">
+            <figure className=" lg:h-[500px] relative  overflow-hidden">
               <img
                 className="w-full h-full object-cover rounded-lg"
                 src={
@@ -34,11 +34,11 @@ const Blog = () => {
               />
             </figure>
 
-            <div className="text-slate-600">
+            <div className="text-slate-600 ">
               <BlogContent content={blog?.content} />
             </div>
           </div>
-          <div className="col-span-4">
+          <div className="lg:col-span-4 hidden md:block">
             <div className=" text-slate-600 text-sm ">Author</div>
             <div className=" flex w-full  items-center pt-3 ">
               <div className=" pr-4 ">
