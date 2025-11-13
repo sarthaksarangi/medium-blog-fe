@@ -4,6 +4,7 @@ import axios from "axios";
 import { UpdatedBlogInput } from "@sarthak.dev/medium-common";
 
 const API_URL = import.meta.env.VITE_BACKEND_PROD_URL;
+//const API_URL = import.meta.env.VITE_BACKEND_DEV_URL;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("jwtToken");
